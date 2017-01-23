@@ -2,3 +2,4 @@ mini-max-sum
 reduced-string
 *.hi
 *.o
+*.bin
