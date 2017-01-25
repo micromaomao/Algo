@@ -1,5 +1,4 @@
 import Data.Array
-import Debug.Trace
 
 editDistance :: (Eq e, Show e) => Array Int e -> Array Int e -> Int
 editDistance a b =
@@ -21,9 +20,4 @@ editDistance a b =
             )
           ]
                       in [ (matIndex (indA, indB), currentMin indB) | indB <- [0..(lenB - 1)] ]
-      showMatrix ele
-        | null ele = "   " ++ (unwords $ map show $ elems b)
-        | otherwise =
-          let (cu, rem) = splitAt (matIndex (0, -1)) ele
-              in (let idx = head cu - 1 in if idx >= 0 then show $ getArr a idx else "   ") ++ " " ++ (unwords $ map show cu) ++ "\n" ++ showMatrix rem
-      in trace (showMatrix $ elems dMatrix) (dMatrix!(matIndex (lenA - 1, lenB - 1)))
+      in dMatrix!(matIndex (lenA - 1, lenB - 1))
