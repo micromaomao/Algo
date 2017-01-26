@@ -1,7 +1,7 @@
 GHC=ghc
 GHCFLAGS=
 
-everything: mini-max-sum.bin reduced-string.bin hackerland-radio-transmitters.bin mark-and-toys.bin greedy-florist.bin tutorial-intro.bin
+everything: mini-max-sum.bin reduced-string.bin hackerland-radio-transmitters.bin mark-and-toys.bin greedy-florist.bin tutorial-intro.bin edit-distance.bin
 rebuild: clean everything
 clean:
 	rm -f *.hi *.o *.bin
@@ -17,3 +17,5 @@ greedy-florist.bin: greedy-florist.hs
 	$(GHC) $(GHCFLAGS) -o greedy-florist.bin greedy-florist.hs
 tutorial-intro.bin: tutorial-intro.hs
 	$(GHC) $(GHCFLAGS) -o tutorial-intro.bin tutorial-intro.hs
+edit-distance.bin: edit-distance.hs
+	$(GHC) $(GHCFLAGS) -o edit-distance.bin edit-distance.hs
