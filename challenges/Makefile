@@ -1,7 +1,7 @@
 GHC=ghc
 GHCFLAGS=
 
-everything: mini-max-sum.bin reduced-string.bin hackerland-radio-transmitters.bin mark-and-toys.bin greedy-florist.bin tutorial-intro.bin edit-distance.bin
+everything: mini-max-sum.bin reduced-string.bin hackerland-radio-transmitters.bin mark-and-toys.bin greedy-florist.bin tutorial-intro.bin edit-distance.bin coin-change.bin
 rebuild: clean everything
 clean:
 	rm -f *.hi *.o *.bin
@@ -19,3 +19,5 @@ tutorial-intro.bin: tutorial-intro.hs
 	$(GHC) $(GHCFLAGS) -o tutorial-intro.bin tutorial-intro.hs
 edit-distance.bin: edit-distance.hs
 	$(GHC) $(GHCFLAGS) -o edit-distance.bin edit-distance.hs
+coin-change.bin: coin-change.hs
+	$(GHC) $(GHCFLAGS) -o coin-change.bin coin-change.hs

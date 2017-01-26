@@ -8,13 +8,18 @@ waysToChange toChange coins
   | minCoin > toChange = 0
   | minCoin == toChange = 1
   | otherwise =
-    let dpSolutions = array (0, toChange) (oneWayForZeroAmount:zeroWaysForAllAmountTooSmall ++ oneWayForMinCoin ++ dpContinue)
-        oneWayForZeroAmount = (0, 1)
-        zeroWaysForAllAmountTooSmall = map (\am -> (am, 0)) [1..(minCoin - 1)]
-        oneWayForMinCoin = [(minCoin, 1)]
-        dpContinue = [ (i, sum $ (let a = map (\c -> dpSolutions!(i - c)) (filter (<=i) coins) in trace (show i ++ ": " ++ show a) a)) | i <- [(minCoin + 1)..toChange]]
-        -- waysToCharge amount = number of choice you have at this stage + foreach. choice ...
-        in trace (show (elems dpSolutions)) dpSolutions!toChange
+    let dMatrix = array (0, matIndex toChange (length coins)) (oneForZero ++ zeroForNoCoins ++ dpRest)
+        matIndex amount useNCoins = useNCoins * (toChange + 1) + amount
+        oneForZero = [ (matIndex 0 i, 1) | i <- [0..(length coins)] ]
+        zeroForNoCoins = [ (matIndex i 0, 0) | i <- [1..toChange] ]
+        dpRest = foldl1 (++) [ dpForAmount am | am <- [1..toChange] ]
+        dpForAmount am = [ (matIndex am useNCoins, (
+            let notUsingThisCoin = dMatrix!(matIndex am (useNCoins - 1))
+                usingThisCoin = if (am - thisCoin) >= 0 then dMatrix!(matIndex (am - thisCoin) useNCoins) else 0
+                thisCoin = coins!!(useNCoins - 1)
+                in notUsingThisCoin + usingThisCoin
+          )) | useNCoins <- [1..(length coins)] ]
+        in dMatrix!(matIndex toChange (length coins))
     where minCoin = minimum coins
 
 main = do
